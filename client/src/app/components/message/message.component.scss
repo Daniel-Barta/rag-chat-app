@@ -1,0 +1,173 @@
+.message {
+  display: flex;
+  gap: 16px;
+  padding: 24px 0;
+  animation: slideUp 0.3s ease;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--border-light);
+  }
+  
+  &.user {
+    .message-body {
+      background-color: var(--bg-tertiary);
+      border-radius: 16px;
+      padding: 12px 16px;
+    }
+  }
+}
+
+.message-avatar {
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &.user-avatar {
+    background-color: var(--accent-color);
+    color: white;
+  }
+  
+  &.assistant-avatar {
+    background-color: var(--bg-tertiary);
+    color: var(--accent-color);
+  }
+}
+
+.message-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.message-role {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.message-time {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.message-body {
+  font-size: 15px;
+  line-height: 1.7;
+  
+  .user-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  
+  // Markdown content styling
+  :global(.markdown-content) {
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1em;
+      margin-bottom: 0.5em;
+      
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+    
+    p {
+      margin-bottom: 0.75em;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    ul, ol {
+      margin: 0.5em 0;
+      padding-left: 1.5em;
+    }
+    
+    li {
+      margin-bottom: 0.25em;
+    }
+    
+    code {
+      background-color: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    pre {
+      margin: 12px 0;
+      
+      code {
+        background: none;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.message-footer {
+  margin-top: 12px;
+}
+
+.sources-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  transition: all 0.15s ease;
+  
+  &:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+  }
+}
+
+// Loading animation
+.loading-dots {
+  display: flex;
+  gap: 4px;
+  padding: 8px 0;
+  
+  span {
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-muted);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+    
+    &:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+    
+    &:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}

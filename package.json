@@ -1,0 +1,35 @@
+{
+  "name": "rag-chat-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "tsup server/index.ts --format esm --sourcemap --clean --target=node20 --outDir dist/server",
+    "build:client": "cd client && npm run build",
+    "dev:server": "tsup server/index.ts --format esm --watch --sourcemap --target=node20 --outDir dist/server",
+    "dev:client": "cd client && npm run start",
+    "start": "node dist/server/index.js",
+    "start:dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "install:all": "npm install && cd client && npm install",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
+    "@modelcontextprotocol/sdk": "^1.17.5",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.1",
+    "@types/uuid": "^10.0.0",
+    "concurrently": "^9.1.2",
+    "rimraf": "^6.1.2",
+    "tsup": "^8.3.0",
+    "typescript": "^5.9.2"
+  }
+}
