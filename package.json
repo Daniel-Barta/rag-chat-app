@@ -12,7 +12,9 @@
     "start": "node dist/server/index.js",
     "start:dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "install:all": "npm install && cd client && npm install",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist && cd client && npm run clean",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@huggingface/transformers": "^3.8.1",
@@ -27,7 +29,10 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.1",
     "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
     "concurrently": "^9.1.2",
+    "eslint": "^9.39.2",
     "rimraf": "^6.1.2",
     "tsup": "^8.3.0",
     "typescript": "^5.9.2"

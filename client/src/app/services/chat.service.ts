@@ -35,8 +35,8 @@ export class ChatService {
   /**
    * Initialize the chat model
    */
-  initChatModel(): Observable<{ success: boolean; model: any }> {
-    return this.http.post<{ success: boolean; model: any }>(`${this.apiUrl}/chat/init`, {}).pipe(
+  initChatModel(): Observable<{ success: boolean; model: unknown }> {
+    return this.http.post<{ success: boolean; model: unknown }>(`${this.apiUrl}/chat/init`, {}).pipe(
       catchError(this.handleError)
     );
   }

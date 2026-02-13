@@ -2,12 +2,16 @@
   "name": "rag-chat-client",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "clean": "rimraf dist .angular",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@angular/animations": "^19.2.0",
@@ -25,9 +29,15 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.0",
+    "@angular-eslint/eslint-plugin": "^21.2.0",
+    "@angular-eslint/eslint-plugin-template": "^21.2.0",
+    "@angular-eslint/template-parser": "^21.2.0",
     "@angular/cli": "^19.2.0",
     "@angular/compiler-cli": "^19.2.0",
     "@types/jasmine": "~5.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "eslint": "^9.39.2",
     "jasmine-core": "~5.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

@@ -5,7 +5,7 @@
  * using the HTTP transport protocol.
  */
 
-import { v4 as uuidv4 } from 'uuid';
+// uuid import removed - was unused
 
 export interface RagQueryResult {
   path: string;
@@ -18,12 +18,17 @@ export interface RagQueryResult {
 export interface MCPResponse {
   jsonrpc: string;
   id: number | string;
-  result?: any;
+  result?: MCPToolResult;
   error?: {
     code: number;
     message: string;
-    data?: any;
+    data?: Record<string, unknown>;
   };
+}
+
+export interface MCPToolResult {
+  content?: Array<{ type: string; text: string }>;
+  [key: string]: unknown;
 }
 
 export interface HealthStatus {
@@ -157,7 +162,7 @@ export class MCPClient {
   /**
    * Send a notification (no response expected)
    */
-  private async sendNotification(method: string, params: any): Promise<void> {
+  private async sendNotification(method: string, params: Record<string, unknown>): Promise<void> {
     if (!this.sessionId) {
       throw new Error('MCP session not initialized');
     }
@@ -182,7 +187,7 @@ export class MCPClient {
   /**
    * Call an MCP tool
    */
-  async callTool(name: string, args: Record<string, any>): Promise<any> {
+  async callTool(name: string, args: Record<string, unknown>): Promise<MCPToolResult | undefined> {
     await this.initialize();
 
     if (!this.sessionId) {
@@ -244,7 +249,7 @@ export class MCPClient {
    * Read a file from the indexed repository
    */
   async readFile(path: string, startLine?: number, endLine?: number): Promise<string> {
-    const args: Record<string, any> = { path };
+    const args: Record<string, unknown> = { path };
     if (startLine !== undefined) args.startLine = startLine;
     if (endLine !== undefined) args.endLine = endLine;
 
@@ -260,7 +265,7 @@ export class MCPClient {
    * List files in a directory
    */
   async listFiles(dir?: string, recursive?: boolean, maxDepth?: number): Promise<string[]> {
-    const args: Record<string, any> = {};
+    const args: Record<string, unknown> = {};
     if (dir !== undefined) args.dir = dir;
     if (recursive !== undefined) args.recursive = recursive;
     if (maxDepth !== undefined) args.maxDepth = maxDepth;

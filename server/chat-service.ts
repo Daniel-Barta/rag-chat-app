@@ -159,13 +159,13 @@ ${ragContext}`;
         setTimeout(() => reject(new Error('Generation timeout')), timeoutMs)
       );
 
-      const output = await Promise.race([generatePromise, timeoutPromise]) as any;
+      const output = await Promise.race([generatePromise, timeoutPromise]) as Record<string, unknown>;
       console.log('Generation complete');
 
       // Extract generated text
       const generatedText = Array.isArray(output) 
-        ? (output[0] as any)?.generated_text || ''
-        : (output as any)?.generated_text || '';
+        ? (output[0] as Record<string, unknown>)?.generated_text || ''
+        : (output as Record<string, unknown>)?.generated_text || '';
 
       // Clean up the response (remove the prompt from output)
       let response = generatedText.substring(prompt.length).trim();
@@ -192,7 +192,7 @@ ${ragContext}`;
     }
 
     return ragResults
-      .map((result, index) => {
+      .map((result) => {
         return `--- File: ${result.path} (relevance: ${(result.score * 100).toFixed(1)}%) ---
 ${result.snippet}`;
       })

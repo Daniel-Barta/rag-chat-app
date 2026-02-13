@@ -190,7 +190,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         const element = this.messagesContainer.nativeElement;
         element.scrollTop = element.scrollHeight;
       }
-    } catch (err) {}
+    } catch {
+      // scroll error ignored
+    }
   }
 
   private generateId(): string {
