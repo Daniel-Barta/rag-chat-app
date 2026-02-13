@@ -1,6 +1,6 @@
 /**
  * Express Server Entry Point
- * 
+ *
  * Main server that:
  * - Serves the Angular frontend
  * - Provides API endpoints for chat functionality
@@ -31,7 +31,15 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files from Angular build
-const clientDistPath = path.join(__dirname, '..', '..', 'client', 'dist', 'rag-chat-client', 'browser');
+const clientDistPath = path.join(
+  __dirname,
+  '..',
+  '..',
+  'client',
+  'dist',
+  'rag-chat-client',
+  'browser',
+);
 app.use(express.static(clientDistPath));
 
 // Initialize MCP client
@@ -49,25 +57,25 @@ app.get('/api/health', async (_req: Request, res: Response) => {
   try {
     const mcpHealth = await mcpClient.checkHealth();
     const chatInfo = chatService.getModelInfo();
-    
+
     res.json({
       status: 'ok',
       server: {
         port: PORT,
-        mcpServerUrl: MCP_SERVER_URL
+        mcpServerUrl: MCP_SERVER_URL,
       },
       rag: mcpHealth,
-      chat: chatInfo
+      chat: chatInfo,
     });
   } catch (error) {
     res.json({
       status: 'degraded',
       server: {
         port: PORT,
-        mcpServerUrl: MCP_SERVER_URL
+        mcpServerUrl: MCP_SERVER_URL,
       },
       rag: { ready: false, error: (error as Error).message },
-      chat: chatService.getModelInfo()
+      chat: chatService.getModelInfo(),
     });
   }
 });
@@ -117,7 +125,7 @@ app.post('/api/chat', async (req: Request<{}, {}, ChatRequest>, res: Response) =
     const response = await chatService.generateResponse(
       message,
       { query: message, ragResults },
-      history
+      history,
     );
 
     // Update conversation history
@@ -132,12 +140,12 @@ app.post('/api/chat', async (req: Request<{}, {}, ChatRequest>, res: Response) =
 
     res.json({
       response,
-      sources: ragResults.map(r => ({
+      sources: ragResults.map((r) => ({
         path: r.path,
         score: r.score,
-        snippet: r.snippet.substring(0, 200)
+        snippet: r.snippet.substring(0, 200),
       })),
-      sessionId
+      sessionId,
     });
   } catch (error) {
     console.error('Chat error:', error);
@@ -247,9 +255,9 @@ app.listen(PORT, () => {
 ║  MCP RAG Server:    ${MCP_SERVER_URL.padEnd(39)}║
 ╚════════════════════════════════════════════════════════════╝
   `);
-  
+
   // Pre-initialize chat service in background
-  chatService.initialize().catch(err => {
+  chatService.initialize().catch((err) => {
     console.warn('Chat service initialization warning:', err.message);
   });
 });

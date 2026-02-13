@@ -35,7 +35,7 @@
   border-radius: 8px;
   background: transparent;
   color: var(--text-secondary);
-  
+
   &:hover {
     background-color: var(--bg-hover);
     color: var(--text-primary);
@@ -44,21 +44,21 @@
 
 .header-title {
   flex: 1;
-  
+
   h1 {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 2px;
   }
-  
+
   .status-indicator {
     font-size: 12px;
     color: var(--text-muted);
-    
+
     &.ready {
       color: var(--success-color);
     }
-    
+
     &.loading {
       animation: pulse 1.5s infinite;
     }
@@ -79,7 +79,7 @@
   border-radius: 8px;
   background: transparent;
   color: var(--text-secondary);
-  
+
   &:hover {
     background-color: var(--bg-hover);
     color: var(--text-primary);
@@ -109,19 +109,19 @@
   margin: 0 auto;
   padding: 48px 24px;
   animation: fadeIn 0.3s ease;
-  
+
   .welcome-icon {
     color: var(--accent-color);
     margin-bottom: 24px;
     opacity: 0.8;
   }
-  
+
   h2 {
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 12px;
   }
-  
+
   p {
     color: var(--text-secondary);
     font-size: 16px;
@@ -139,11 +139,11 @@
   border-radius: 8px;
   margin-bottom: 24px;
   font-size: 14px;
-  
+
   .label {
     color: var(--text-muted);
   }
-  
+
   .value {
     color: var(--text-primary);
     font-family: 'JetBrains Mono', monospace;
@@ -155,18 +155,18 @@
   display: flex;
   gap: 32px;
   margin-bottom: 32px;
-  
+
   .stat {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     .stat-value {
       font-size: 32px;
       font-weight: 700;
       color: var(--accent-color);
     }
-    
+
     .stat-label {
       font-size: 14px;
       color: var(--text-muted);
@@ -176,7 +176,7 @@
 
 .suggestions {
   width: 100%;
-  
+
   .suggestions-title {
     font-size: 14px;
     color: var(--text-muted);
@@ -199,7 +199,7 @@
   color: var(--text-primary);
   font-size: 14px;
   transition: all 0.15s ease;
-  
+
   &:hover {
     background-color: var(--bg-hover);
     border-color: var(--accent-color);
@@ -223,7 +223,7 @@
   border: 1px solid var(--border-color);
   border-radius: 16px;
   transition: border-color 0.15s ease;
-  
+
   &:focus-within {
     border-color: var(--accent-color);
   }
@@ -239,12 +239,12 @@
   padding: 0;
   font-size: 16px;
   line-height: 1.5;
-  
+
   &:focus {
     outline: none;
     border: none;
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -261,11 +261,11 @@
   background-color: var(--accent-color);
   color: white;
   flex-shrink: 0;
-  
+
   &:hover:not(:disabled) {
     background-color: var(--accent-hover);
   }
-  
+
   &:disabled {
     background-color: var(--bg-hover);
     color: var(--text-muted);
@@ -282,7 +282,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .input-hint {
@@ -297,26 +299,26 @@
   .chat-header {
     padding: 12px 16px;
   }
-  
+
   .messages-area {
     padding: 16px;
   }
-  
+
   .input-area {
     padding: 12px 16px 16px;
   }
-  
+
   .welcome-screen {
     padding: 32px 16px;
-    
+
     h2 {
       font-size: 24px;
     }
   }
-  
+
   .index-stats {
     gap: 24px;
-    
+
     .stat-value {
       font-size: 24px;
     }

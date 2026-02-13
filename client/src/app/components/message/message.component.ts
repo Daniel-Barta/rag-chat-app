@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatMessage, Source } from '../../models/chat.model';
 import { marked } from 'marked';
@@ -9,7 +17,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss']
+  styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit, OnChanges {
   @Input() message!: ChatMessage;
@@ -21,7 +29,7 @@ export class MessageComponent implements OnInit, OnChanges {
     // Configure marked
     marked.setOptions({
       breaks: true,
-      gfm: true
+      gfm: true,
     });
   }
 
@@ -59,9 +67,9 @@ export class MessageComponent implements OnInit, OnChanges {
   }
 
   formatTime(date: Date): string {
-    return new Date(date).toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return new Date(date).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
     });
   }
 }

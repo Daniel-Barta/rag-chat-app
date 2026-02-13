@@ -1,6 +1,6 @@
 /**
  * MCP Client for RAG Server
- * 
+ *
  * This module provides a client to communicate with the MCP RAG server
  * using the HTTP transport protocol.
  */
@@ -81,15 +81,19 @@ export class MCPClient {
   private async parseResponse(response: Response): Promise<MCPResponse> {
     const contentType = response.headers.get('content-type') || '';
     const text = await response.text();
-    
-    if (contentType.includes('text/event-stream') || text.startsWith('event:') || text.startsWith('data:')) {
+
+    if (
+      contentType.includes('text/event-stream') ||
+      text.startsWith('event:') ||
+      text.startsWith('data:')
+    ) {
       const parsed = this.parseSSEResponse(text);
       if (parsed) {
         return parsed;
       }
       throw new Error(`Failed to parse SSE response: ${text.substring(0, 200)}`);
     }
-    
+
     // Regular JSON response
     return JSON.parse(text);
   }
@@ -122,18 +126,18 @@ export class MCPClient {
         capabilities: {},
         clientInfo: {
           name: 'rag-chat-app',
-          version: '1.0.0'
-        }
-      }
+          version: '1.0.0',
+        },
+      },
     };
 
     const response = await fetch(`${this.baseUrl}/mcp`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json, text/event-stream'
+        Accept: 'application/json, text/event-stream',
       },
-      body: JSON.stringify(initRequest)
+      body: JSON.stringify(initRequest),
     });
 
     if (!response.ok) {
@@ -170,17 +174,17 @@ export class MCPClient {
     const notification = {
       jsonrpc: '2.0',
       method,
-      params
+      params,
     };
 
     await fetch(`${this.baseUrl}/mcp`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json, text/event-stream',
-        'mcp-session-id': this.sessionId
+        Accept: 'application/json, text/event-stream',
+        'mcp-session-id': this.sessionId,
       },
-      body: JSON.stringify(notification)
+      body: JSON.stringify(notification),
     });
   }
 
@@ -200,18 +204,18 @@ export class MCPClient {
       method: 'tools/call',
       params: {
         name,
-        arguments: args
-      }
+        arguments: args,
+      },
     };
 
     const response = await fetch(`${this.baseUrl}/mcp`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json, text/event-stream',
-        'mcp-session-id': this.sessionId
+        Accept: 'application/json, text/event-stream',
+        'mcp-session-id': this.sessionId,
       },
-      body: JSON.stringify(request)
+      body: JSON.stringify(request),
     });
 
     if (!response.ok) {
@@ -232,7 +236,7 @@ export class MCPClient {
    */
   async ragQuery(query: string, topK: number = 5): Promise<RagQueryResult[]> {
     const result = await this.callTool('rag_query', { query, top_k: topK });
-    
+
     // Parse the content from the result
     if (result?.content?.[0]?.text) {
       try {
@@ -254,7 +258,7 @@ export class MCPClient {
     if (endLine !== undefined) args.endLine = endLine;
 
     const result = await this.callTool('read_file', args);
-    
+
     if (result?.content?.[0]?.text) {
       return result.content[0].text;
     }
@@ -271,7 +275,7 @@ export class MCPClient {
     if (maxDepth !== undefined) args.maxDepth = maxDepth;
 
     const result = await this.callTool('list_files', args);
-    
+
     if (result?.content?.[0]?.text) {
       try {
         return JSON.parse(result.content[0].text);
@@ -292,8 +296,8 @@ export class MCPClient {
       await fetch(`${this.baseUrl}/mcp`, {
         method: 'DELETE',
         headers: {
-          'mcp-session-id': this.sessionId
-        }
+          'mcp-session-id': this.sessionId,
+        },
       });
     } catch (error) {
       console.error('Error closing MCP session:', error);

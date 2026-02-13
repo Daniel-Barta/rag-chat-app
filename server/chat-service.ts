@@ -1,6 +1,6 @@
 /**
  * Local LLM Chat Service using HuggingFace Transformers
- * 
+ *
  * Uses a locally downloaded model to generate responses based on
  * context retrieved from the RAG server.
  */
@@ -9,7 +9,8 @@ import { pipeline, TextGenerationPipeline, env } from '@huggingface/transformers
 import path from 'node:path';
 
 // Configure cache directory
-const cacheDir = process.env.TRANSFORMERS_CACHE || path.join(process.cwd(), '.cache', 'transformers');
+const cacheDir =
+  process.env.TRANSFORMERS_CACHE || path.join(process.cwd(), '.cache', 'transformers');
 env.cacheDir = cacheDir;
 env.allowLocalModels = true;
 env.allowRemoteModels = true;
@@ -40,13 +41,13 @@ const MODEL_OPTIONS = {
   // Qwen 4B - ONNX version, best performance but requires more resources
   'qwen-4b': 'onnx-community/Qwen3-4B-Instruct-2507-ONNX',
   // SmolLM - Tiny but functional (legacy)
-  'smollm': 'HuggingFaceTB/SmolLM-135M-Instruct',
+  smollm: 'HuggingFaceTB/SmolLM-135M-Instruct',
   // SmolLM2 360M - Smarter than original SmolLM, ONNX available
   'smollm2-360m': 'HuggingFaceTB/SmolLM2-360M-Instruct',
   // SmolLM2 1.7B - Much smarter, ONNX available
-  'smollm2': 'HuggingFaceTB/SmolLM2-1.7B-Instruct',
+  smollm2: 'HuggingFaceTB/SmolLM2-1.7B-Instruct',
   // TinyLlama - Good balance of size and capability
-  'tinyllama': 'TinyLlama/TinyLlama-1.1B-Chat-v1.0',
+  tinyllama: 'TinyLlama/TinyLlama-1.1B-Chat-v1.0',
   // Phi-3.5 mini - ONNX version
   'phi-3.5': 'onnx-community/Phi-3.5-mini-instruct',
   // Phi-2 - Microsoft's small model (legacy)
@@ -71,7 +72,7 @@ export class ChatService {
    */
   async initialize(): Promise<void> {
     if (this.generator) return;
-    
+
     if (this.initPromise) {
       return this.initPromise;
     }
@@ -82,10 +83,10 @@ export class ChatService {
 
     this.initPromise = (async () => {
       try {
-        this.generator = await pipeline('text-generation', this.modelName, {
+        this.generator = (await pipeline('text-generation', this.modelName, {
           dtype: 'q4', // Use 4-bit quantized model (more widely available than q8)
-        }) as TextGenerationPipeline;
-        
+        })) as TextGenerationPipeline;
+
         console.log('Chat model initialized successfully');
       } catch (error) {
         console.error('Failed to initialize chat model:', error);
@@ -113,11 +114,11 @@ export class ChatService {
   async generateResponse(
     userQuery: string,
     context: ChatContext,
-    conversationHistory: ChatMessage[] = []
+    conversationHistory: ChatMessage[] = [],
   ): Promise<string> {
     // Build context from RAG results
     const ragContext = this.buildRagContext(context.ragResults);
-    
+
     // If model failed to load, use template-based response
     if (!this.generator) {
       console.log('Using template-based response');
@@ -138,7 +139,7 @@ ${ragContext}`;
       const messages: ChatMessage[] = [
         { role: 'system', content: systemPrompt },
         ...conversationHistory.slice(-6), // Keep last 6 messages for context
-        { role: 'user', content: userQuery }
+        { role: 'user', content: userQuery },
       ];
 
       // Format for the model
@@ -155,21 +156,24 @@ ${ragContext}`;
         repetition_penalty: 1.1,
       });
 
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Generation timeout')), timeoutMs)
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Generation timeout')), timeoutMs),
       );
 
-      const output = await Promise.race([generatePromise, timeoutPromise]) as Record<string, unknown>;
+      const output = (await Promise.race([generatePromise, timeoutPromise])) as Record<
+        string,
+        unknown
+      >;
       console.log('Generation complete');
 
       // Extract generated text
-      const generatedText = Array.isArray(output) 
+      const generatedText = Array.isArray(output)
         ? (output[0] as Record<string, unknown>)?.generated_text || ''
         : (output as Record<string, unknown>)?.generated_text || '';
 
       // Clean up the response (remove the prompt from output)
       let response = generatedText.substring(prompt.length).trim();
-      
+
       // If response is empty, use template
       if (!response) {
         console.log('Empty response from model, using template');
@@ -186,7 +190,9 @@ ${ragContext}`;
   /**
    * Build context string from RAG results
    */
-  private buildRagContext(ragResults: Array<{ path: string; score: number; snippet: string }>): string {
+  private buildRagContext(
+    ragResults: Array<{ path: string; score: number; snippet: string }>,
+  ): string {
     if (ragResults.length === 0) {
       return 'No relevant context found in the codebase.';
     }
@@ -203,20 +209,22 @@ ${result.snippet}`;
    * Format messages into a prompt string
    */
   private formatPrompt(messages: ChatMessage[]): string {
-    return messages
-      .map(msg => {
-        switch (msg.role) {
-          case 'system':
-            return `<|system|>\n${msg.content}</s>`;
-          case 'user':
-            return `<|user|>\n${msg.content}</s>`;
-          case 'assistant':
-            return `<|assistant|>\n${msg.content}</s>`;
-          default:
-            return msg.content;
-        }
-      })
-      .join('\n') + '\n<|assistant|>\n';
+    return (
+      messages
+        .map((msg) => {
+          switch (msg.role) {
+            case 'system':
+              return `<|system|>\n${msg.content}</s>`;
+            case 'user':
+              return `<|user|>\n${msg.content}</s>`;
+            case 'assistant':
+              return `<|assistant|>\n${msg.content}</s>`;
+            default:
+              return msg.content;
+          }
+        })
+        .join('\n') + '\n<|assistant|>\n'
+    );
   }
 
   /**
@@ -224,7 +232,7 @@ ${result.snippet}`;
    */
   private generateTemplateResponse(
     query: string,
-    ragResults: Array<{ path: string; score: number; snippet: string }>
+    ragResults: Array<{ path: string; score: number; snippet: string }>,
   ): string {
     if (ragResults.length === 0) {
       return `I searched the indexed codebase but couldn't find any relevant information for your query: "${query}". 
@@ -256,12 +264,10 @@ This could mean:
   getModelInfo(): { name: string; ready: boolean } {
     return {
       name: this.modelName,
-      ready: this.isReady()
+      ready: this.isReady(),
     };
   }
 }
 
 // Export a singleton instance
-export const chatService = new ChatService(
-  (process.env.CHAT_MODEL as ModelKey) || 'qwen-4b'
-);
+export const chatService = new ChatService((process.env.CHAT_MODEL as ModelKey) || 'qwen-4b');

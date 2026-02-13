@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  AfterViewChecked,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
@@ -13,15 +20,9 @@ import { SourcesPanelComponent } from '../sources-panel/sources-panel.component'
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [
-    CommonModule, 
-    FormsModule, 
-    SidebarComponent, 
-    MessageComponent,
-    SourcesPanelComponent
-  ],
+  imports: [CommonModule, FormsModule, SidebarComponent, MessageComponent, SourcesPanelComponent],
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
@@ -30,33 +31,35 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   conversations: Conversation[] = [];
   activeConversation: Conversation | null = null;
   healthStatus: HealthStatus | null = null;
-  
+
   userMessage = '';
   isLoading = false;
   isSidebarOpen = true;
   showSources = false;
   selectedSources: Source[] = [];
-  
+
   private destroy$ = new Subject<void>();
   private shouldScrollToBottom = false;
 
   constructor(
     private chatService: ChatService,
-    private conversationService: ConversationService
+    private conversationService: ConversationService,
   ) {}
 
   ngOnInit(): void {
     // Subscribe to conversations
-    this.conversationService.getConversations()
+    this.conversationService
+      .getConversations()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(conversations => {
+      .subscribe((conversations) => {
         this.conversations = conversations;
       });
 
     // Subscribe to active conversation
-    this.conversationService.getActiveConversation()
+    this.conversationService
+      .getActiveConversation()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(conversation => {
+      .subscribe((conversation) => {
         this.activeConversation = conversation;
         this.shouldScrollToBottom = true;
       });
@@ -93,9 +96,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           status: 'error',
           server: { port: 0, mcpServerUrl: '' },
           rag: { ready: false, error: error.message },
-          chat: { name: 'unknown', ready: false }
+          chat: { name: 'unknown', ready: false },
         };
-      }
+      },
     });
   }
 
@@ -129,7 +132,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       id: this.generateId(),
       role: 'user',
       content: message,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
     this.conversationService.addMessage(userMsg);
 
@@ -139,7 +142,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       role: 'assistant',
       content: '',
       timestamp: new Date(),
-      isLoading: true
+      isLoading: true,
     };
     this.conversationService.addMessage(assistantMsg);
 
@@ -153,7 +156,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.conversationService.updateLastMessage({
           content: response.response,
           sources: response.sources,
-          isLoading: false
+          isLoading: false,
         });
         this.isLoading = false;
         this.shouldScrollToBottom = true;
@@ -161,10 +164,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       error: (error) => {
         this.conversationService.updateLastMessage({
           content: `Error: ${error.message}. Please check that the RAG server is running and try again.`,
-          isLoading: false
+          isLoading: false,
         });
         this.isLoading = false;
-      }
+      },
     });
   }
 

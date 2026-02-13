@@ -39,7 +39,7 @@
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-light);
-  
+
   h3 {
     font-size: 16px;
     font-weight: 600;
@@ -55,7 +55,7 @@
   border-radius: 6px;
   background: transparent;
   color: var(--text-secondary);
-  
+
   &:hover {
     background-color: var(--bg-hover);
     color: var(--text-primary);
@@ -73,7 +73,7 @@
   align-items: center;
   justify-content: center;
   padding: 32px;
-  
+
   p {
     color: var(--text-muted);
   }
@@ -90,7 +90,7 @@
   border-radius: 8px;
   overflow: hidden;
   transition: all 0.15s ease;
-  
+
   &.expanded {
     .expand-btn {
       transform: rotate(180deg);
@@ -104,7 +104,7 @@
   gap: 12px;
   padding: 12px;
   cursor: pointer;
-  
+
   &:hover {
     background-color: var(--bg-hover);
   }
@@ -119,12 +119,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  
+
   svg {
     flex-shrink: 0;
     color: var(--text-muted);
   }
-  
+
   .file-name {
     font-size: 14px;
     font-weight: 500;
@@ -149,17 +149,17 @@
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 4px;
-  
+
   &.high {
     background-color: rgba(16, 185, 129, 0.2);
     color: var(--success-color);
   }
-  
+
   &.medium {
     background-color: rgba(245, 158, 11, 0.2);
     color: var(--warning-color);
   }
-  
+
   &.low {
     background-color: rgba(239, 68, 68, 0.2);
     color: var(--error-color);
@@ -187,7 +187,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-  
+
   span {
     font-size: 12px;
     color: var(--text-muted);
@@ -203,7 +203,7 @@
   border-radius: 4px;
   background: transparent;
   color: var(--text-muted);
-  
+
   &:hover {
     background-color: var(--bg-hover);
     color: var(--text-primary);
@@ -219,7 +219,7 @@
   line-height: 1.5;
   max-height: 300px;
   overflow: auto;
-  
+
   code {
     background: none;
     padding: 0;
@@ -233,7 +233,7 @@
   .sources-panel {
     width: 100%;
   }
-  
+
   .panel-overlay {
     right: 0;
   }

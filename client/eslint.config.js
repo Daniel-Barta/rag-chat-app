@@ -4,6 +4,8 @@ import tsparser from '@typescript-eslint/parser';
 import angular from '@angular-eslint/eslint-plugin';
 import angularTemplate from '@angular-eslint/eslint-plugin-template';
 import angularTemplateParser from '@angular-eslint/template-parser';
+import prettier from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 
 export default [
   eslint.configs.recommended,
@@ -28,8 +30,10 @@ export default [
     plugins: {
       '@typescript-eslint': tseslint,
       '@angular-eslint': angular,
+      prettier,
     },
     rules: {
+      'prettier/prettier': 'error',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -66,6 +70,7 @@ export default [
       '@angular-eslint/template/no-negated-async': 'error',
     },
   },
+  prettierConfig,
   {
     ignores: ['node_modules/**', 'dist/**', '.angular/**'],
   },

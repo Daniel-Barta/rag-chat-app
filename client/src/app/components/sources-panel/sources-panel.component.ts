@@ -7,7 +7,7 @@ import { Source } from '../../models/chat.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './sources-panel.component.html',
-  styleUrls: ['./sources-panel.component.scss']
+  styleUrls: ['./sources-panel.component.scss'],
 })
 export class SourcesPanelComponent {
   @Input() sources: Source[] = [];

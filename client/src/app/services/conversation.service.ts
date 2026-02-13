@@ -3,11 +3,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ChatMessage, Conversation } from '../models/chat.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConversationService {
   private readonly STORAGE_KEY = 'rag-chat-conversations';
-  
+
   private conversations$ = new BehaviorSubject<Conversation[]>([]);
   private activeConversation$ = new BehaviorSubject<Conversation | null>(null);
 
@@ -38,7 +38,7 @@ export class ConversationService {
       title: 'New Chat',
       messages: [],
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     const conversations = [conversation, ...this.conversations$.value];
@@ -53,7 +53,7 @@ export class ConversationService {
    * Set active conversation
    */
   setActiveConversation(id: string): void {
-    const conversation = this.conversations$.value.find(c => c.id === id);
+    const conversation = this.conversations$.value.find((c) => c.id === id);
     if (conversation) {
       this.activeConversation$.next(conversation);
     }
@@ -87,18 +87,18 @@ export class ConversationService {
     // Create new message object for change detection
     const lastIndex = active.messages.length - 1;
     const updatedMessage = { ...active.messages[lastIndex], ...updates };
-    
+
     // Create new messages array with the updated message
     const newMessages = [...active.messages];
     newMessages[lastIndex] = updatedMessage;
-    
+
     // Create new conversation object with new messages array
     const updatedConversation: Conversation = {
       ...active,
       messages: newMessages,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     this.updateConversation(updatedConversation);
   }
 
@@ -106,7 +106,7 @@ export class ConversationService {
    * Delete a conversation
    */
   deleteConversation(id: string): void {
-    const conversations = this.conversations$.value.filter(c => c.id !== id);
+    const conversations = this.conversations$.value.filter((c) => c.id !== id);
     this.conversations$.next(conversations);
 
     if (this.activeConversation$.value?.id === id) {
@@ -126,8 +126,8 @@ export class ConversationService {
   }
 
   private updateConversation(conversation: Conversation): void {
-    const conversations = this.conversations$.value.map(c => 
-      c.id === conversation.id ? conversation : c
+    const conversations = this.conversations$.value.map((c) =>
+      c.id === conversation.id ? conversation : c,
     );
     this.conversations$.next(conversations);
     this.activeConversation$.next(conversation);
@@ -140,10 +140,10 @@ export class ConversationService {
       if (stored) {
         const conversations: Conversation[] = JSON.parse(stored);
         // Convert date strings back to Date objects
-        conversations.forEach(c => {
+        conversations.forEach((c) => {
           c.createdAt = new Date(c.createdAt);
           c.updatedAt = new Date(c.updatedAt);
-          c.messages.forEach(m => {
+          c.messages.forEach((m) => {
             m.timestamp = new Date(m.timestamp);
           });
         });

@@ -2,6 +2,8 @@ import eslint from '@eslint/js';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
 import globals from 'globals';
+import prettier from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 
 export default [
   eslint.configs.recommended,
@@ -20,8 +22,10 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tseslint,
+      prettier,
     },
     rules: {
+      'prettier/prettier': 'error',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -31,6 +35,7 @@ export default [
       'no-console': 'off',
     },
   },
+  prettierConfig,
   {
     ignores: ['dist/**', 'node_modules/**', 'client/**'],
   },

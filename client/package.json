@@ -11,7 +11,9 @@
     "test": "ng test",
     "clean": "rimraf dist .angular",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,html,scss,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,css}\""
   },
   "dependencies": {
     "@angular/animations": "^19.2.0",
@@ -38,12 +40,16 @@
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
     "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
     "jasmine-core": "~5.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "^3.8.1",
+    "prettier-plugin-organize-imports": "^4.3.0",
     "typescript": "~5.7.0"
   }
 }

@@ -7,7 +7,7 @@ import { Conversation } from '../../models/chat.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
   @Input() conversations: Conversation[] = [];
@@ -38,7 +38,7 @@ export class SidebarComponent {
     const now = new Date();
     const diff = now.getTime() - new Date(date).getTime();
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    
+
     if (days === 0) return 'Today';
     if (days === 1) return 'Yesterday';
     if (days < 7) return `${days} days ago`;
