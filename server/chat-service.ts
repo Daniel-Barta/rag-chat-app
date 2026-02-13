@@ -85,7 +85,7 @@ export class ChatService {
       try {
         this.generator = (await pipeline('text-generation', this.modelName, {
           dtype: 'q4', // Use 4-bit quantized model (more widely available than q8)
-        })) as TextGenerationPipeline;
+        })) as unknown as TextGenerationPipeline;
 
         console.log('Chat model initialized successfully');
       } catch (error) {
@@ -167,9 +167,11 @@ ${ragContext}`;
       console.log('Generation complete');
 
       // Extract generated text
-      const generatedText = Array.isArray(output)
-        ? (output[0] as Record<string, unknown>)?.generated_text || ''
-        : (output as Record<string, unknown>)?.generated_text || '';
+      const generatedText = (
+        Array.isArray(output)
+          ? (output[0] as Record<string, unknown>)?.generated_text || ''
+          : (output as Record<string, unknown>)?.generated_text || ''
+      ) as string;
 
       // Clean up the response (remove the prompt from output)
       let response = generatedText.substring(prompt.length).trim();

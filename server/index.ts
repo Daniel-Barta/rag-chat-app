@@ -229,7 +229,7 @@ app.post('/api/rag/list-files', async (req: Request<{}, {}, ListFilesRequest>, r
  */
 app.delete('/api/chat/history/:sessionId', (req: Request, res: Response) => {
   const { sessionId } = req.params;
-  conversationStore.delete(sessionId);
+  conversationStore.delete(sessionId as string);
   res.json({ success: true });
 });
 
