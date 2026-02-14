@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ChatResponse, HealthStatus, RagQueryResult } from '../models/chat.model';
+import { ChatResponse, HealthStatus } from '../models/chat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -50,48 +50,6 @@ export class ChatService {
         message,
         sessionId: this.sessionId,
         topK,
-      })
-      .pipe(catchError(this.handleError));
-  }
-
-  /**
-   * Direct RAG query
-   */
-  ragQuery(query: string, topK: number = 5): Observable<{ results: RagQueryResult[] }> {
-    return this.http
-      .post<{ results: RagQueryResult[] }>(`${this.apiUrl}/rag/query`, {
-        query,
-        topK,
-      })
-      .pipe(catchError(this.handleError));
-  }
-
-  /**
-   * Read a file from the repository
-   */
-  readFile(
-    path: string,
-    startLine?: number,
-    endLine?: number,
-  ): Observable<{ content: string; path: string }> {
-    return this.http
-      .post<{ content: string; path: string }>(`${this.apiUrl}/rag/read-file`, {
-        path,
-        startLine,
-        endLine,
-      })
-      .pipe(catchError(this.handleError));
-  }
-
-  /**
-   * List files in the repository
-   */
-  listFiles(dir?: string, recursive?: boolean, maxDepth?: number): Observable<{ files: string[] }> {
-    return this.http
-      .post<{ files: string[] }>(`${this.apiUrl}/rag/list-files`, {
-        dir,
-        recursive,
-        maxDepth,
       })
       .pipe(catchError(this.handleError));
   }

@@ -42,14 +42,6 @@ export interface HealthStatus {
   };
 }
 
-export interface RagQueryResult {
-  path: string;
-  score: number;
-  snippet: string;
-  totalLines?: number;
-  fileSize?: number;
-}
-
 export interface Conversation {
   id: string;
   title: string;
