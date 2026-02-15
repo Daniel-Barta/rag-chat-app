@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "build:server",
+      "label": "build:server",
+      "group": "build",
+      "problemMatcher": [],
+      "detail": "Build the server with tsup"
+    }
+  ]
+}
